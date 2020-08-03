@@ -22,6 +22,6 @@ client = boto3.client('apigateway', **credentials, config=config)
 
 
 response = client.get_rest_apis()
-apis = [ { 'name': item['name'] } for item in response['items'] ]
+apis = [ { 'title': item['name'] } for item in response['items'] ]
 
 print(json.dumps(apis))
