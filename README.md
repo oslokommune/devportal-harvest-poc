@@ -6,7 +6,7 @@
 3. `make create-dotenv-file`
 
 ## Configure
-Edit the created .env file to your liking
+Edit the created .env file to your liking and run `export $(cat .env)`
 
 ## Usage
 * `make harvest` will fetch apis from the harvesters in harvester/ and generate a data file in data/
