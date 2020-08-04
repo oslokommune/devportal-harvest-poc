@@ -20,3 +20,6 @@ harvest:
 
 distribute:
 	${PYTHON} distributor/dataplatform.py data/aws.json
+
+turtle:
+	@${PYTHON} tools/json_merger.py data | ${PYTHON} writer/turtle.py
