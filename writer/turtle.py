@@ -13,8 +13,10 @@ catalog.title = {
     'no': 'Oslo Kommunes API-katalog'
 }
 
+identifier = 0
 for item in data:
-    item['identifier'] = 'https://developer.oslo.kommune.no/katalog/api/31/'
+    identifier += 1
+    item['identifier'] = f'https://developer.oslo.kommune.no/katalog/api/{identifier}/'
 
     api = DataService()
     api.title = {'nb': item['title']}
