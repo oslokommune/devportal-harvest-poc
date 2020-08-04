@@ -5,13 +5,17 @@ from origo.data.upload import Upload
 from origo.data.dataset import Dataset
 from origo.config import Config
 
+TMP_PATH = '/tmp/api_export.json'
+
 origo_config = Config(env='dev')
 
 data_uploader = Upload(config=origo_config)
 dataset = Dataset(config=origo_config)
 
 dataset_id = 'api-listen'
-filename = sys.argv[1]
+
+with open(TMP_PATH, 'w') as f:
+    f.write(sys.stdin.read())
 
 edition_data = {
     'edition': datetime.datetime.utcnow().replace(tzinfo = datetime.timezone.utc).isoformat(),
@@ -25,6 +29,6 @@ edition = dataset.create_edition(dataset_id, version, data = edition_data)
 editionId = edition['Id'].rsplit('/', 1)[1]
 
 try:
-    status = data_uploader.upload(filename, dataset_id, version, editionId)
+    status = data_uploader.upload(TMP_PATH, dataset_id, version, editionId)
 except Exception as e:
     sys.exit(1)
