@@ -18,6 +18,9 @@ create-dotenv-file:
 	@echo "AZURE_CLIENT_SECRET=" >> .env
 	@echo "AZURE_SUBSCRIPTION_ID=" >> .env
 	@echo "AZURE_TENANT_ID=" >> .env
+	@echo "\n# Kong harvester" >> .env
+	@echo "KONG_EXPORTER_URL=" >> .env
+	@echo "KONG_EXPORTER_KEY=" >> .env
 	@echo "Remember to run 'export $$(cat .env)'"
 
 harvest:
