@@ -6,8 +6,9 @@ from datacatalogtordf import Catalog, DataService
 data = json.loads(sys.stdin.read())
 
 catalog = Catalog()
-catalog.identifier = 'https://developer.oslo.kommune.no/katalog/api'
+catalog.identifier = '920204368'
 catalog.publisher = 'https://data.brreg.no/enhetsregisteret/oppslag/enheter/920204368'
+catalog.homepage = 'https://www.oslo.kommune.no/'
 catalog.title = {
     'en': 'The Oslo Kommune API catalog',
     'no': 'Oslo Kommunes API-katalog'
