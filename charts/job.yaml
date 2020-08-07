@@ -1,0 +1,40 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+
+metadata:
+  name: harvest-${CREATOR_NAME}
+
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          imagePullSecrets:
+            - name: regsecret
+          containers:
+            - name: ${STACK}-harvester
+              image: container-registry.oslo.kommune.no/${STACK}-harvester:latest
+              env:
+                # Publisher information
+                # Harvester credentials
+                ## AWS
+                - name: AWS_ACCESS_KEY_ID
+                  value: "${AWS_ACCESS_KEY_ID}"
+                - name: AWS_SECRET_ACCESS_KEY
+                  value: "${AWS_SECRET_ACCESS_KEY}"
+                ## Kong
+                - name: KONG_EXPORTER_URL
+                  value: "${KONG_EXPORTER_URL}"
+                - name: KONG_EXPORTER_KEY
+                  value: "${KONG_EXPORTER_KEY}"
+                ## Azure
+                - name: AZURE_CLIENT_ID
+                  value: "${AZURE_CLIENT_ID}"
+                - name: AZURE_CLIENT_SECRET
+                  value: "${AZURE_CLIENT_SECRET}"
+                - name: AZURE_SUBSCRIPTION_ID
+                  value: "${AZURE_SUBSCRIPTION_ID}"
+                - name: AZURE_TENANT_ID
+                  value: "${AZURE_TENANT_ID}"
