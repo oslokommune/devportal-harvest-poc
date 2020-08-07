@@ -1,0 +1,18 @@
+creators:
+  - name: Fishermen INC
+    harvesters:
+      - stack: aws
+        access_key_id: access-key-id-string
+        secret_access_key: secret-access-key-string
+  - name: NanoSoft
+    harvesters:
+      - stack: azure
+        client_id: graage-feas-aeff-feafe-eafewafawfee
+        client_secret: aojfpjeffjwpajfoeojfpwajfp
+        subscription_id: fewafewa-opea-erae-foje-jopfaewjp
+        tenant_id: pofesj-eopf-eopj-1321-ojpeajfpowa
+  - name: Flaskeetaten
+    harvesters:
+      - stack: kong
+        exporter_url: https://kong-api-exporter.env.corp..no/services
+        exporter_key: somesecretapikeythingmabobber
