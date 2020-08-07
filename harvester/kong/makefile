@@ -4,6 +4,8 @@ NAME=kong-harvester
 
 build:
 	docker build --tag ${REPOSITORY}/${NAME} .
+push:
+	docker push ${REPOSITORY}/${NAME}
 
 run:
 	@docker run \
