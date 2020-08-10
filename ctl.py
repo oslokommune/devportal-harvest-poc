@@ -1,14 +1,13 @@
-from subprocess import run, PIPE
+from subprocess import run
 import sys
 import yaml
 
 from lib.env import extractStackEnv, extractCreatorEnv
+from lib.job import Job
 
 data = yaml.load(sys.stdin.read(), Loader=yaml.FullLoader)
 
-jobTemplate = ''
-with open('charts/job.yaml') as f:
-    jobTemplate = f.read()
+KUBECTL_APPLY = ['kubectl', '--namespace', 'developerportal-test', 'apply', '-f', '-']
 
 def deploy(creator, harvester):
     stack_env = extractStackEnv(harvester)
@@ -16,20 +15,17 @@ def deploy(creator, harvester):
 
     env = { **creator_env, **stack_env }
 
-    interpolatedTemplate = run(
-        ['envsubst'],
-        capture_output=True,
-        env=env,
-        input=jobTemplate.encode('utf-8')
+    template = Job.loadFile('charts/job.yaml', env)
+
+    run(
+        KUBECTL_APPLY,
+        input = template.generateSecret().encode('utf-8')
     )
 
-    deployment = run(
-        ['kubectl', '--namespace', 'developerportal-test', 'apply', '-f', '-'],
-        capture_output=True,
-        input=interpolatedTemplate.stdout
+    run(
+        KUBECTL_APPLY,
+        input = str(template).encode('utf-8')
     )
-
-    print(deployment.stdout.decode())
 
 for creator in data['creators'][:1]:
     for harvester in creator['harvesters']:
