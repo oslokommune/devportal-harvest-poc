@@ -6,6 +6,8 @@ metadata:
 
 spec:
   schedule: "*/1 * * * *"
+  failedJobsHistoryLimit: 2
+  successfulJobsHistoryLimit: 2
   jobTemplate:
     spec:
       template:
@@ -16,6 +18,13 @@ spec:
           containers:
             - name: ${STACK}-harvester
               image: container-registry.oslo.kommune.no/${STACK}-harvester:latest
+              volumeMounts:
+                - name: harvest-output
+                  mountPath: /data
+              args:
+                - /bin/sh
+                - -c
+                - python /app/${STACK}.py > /data/${CREATOR_NAME}-${STACK}.json
               env:
                 # Publisher information
                 # Harvester credentials
@@ -38,3 +47,7 @@ spec:
                   value: "${AZURE_SUBSCRIPTION_ID}"
                 - name: AZURE_TENANT_ID
                   value: "${AZURE_TENANT_ID}"
+          volumes:
+            - name: harvest-output
+              persistentVolumeClaim:
+                claimName: harvest-output
