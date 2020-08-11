@@ -1,0 +1,4 @@
+ingress:
+  url: latest-provider.k8s-test.oslo.kommune.no
+service:
+  port: 5000

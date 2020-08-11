@@ -1,0 +1,1 @@
+URL til applikasjonen: https://{{ .Values.ingress.url }}
