@@ -14,7 +14,6 @@ def deploy(creator, harvester):
     creator_env = extractCreatorEnv(creator)
 
     env = { **creator_env, **stack_env }
-
     template = Job.loadFile('charts/job.yaml', env)
 
     run(
@@ -27,6 +26,6 @@ def deploy(creator, harvester):
         input = str(template).encode('utf-8')
     )
 
-for source in data['sources'][:1]:
+for source in data['sources']:
     for harvester in source['harvesters']:
         deploy(source, harvester)
