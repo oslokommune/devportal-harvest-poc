@@ -1,10 +1,12 @@
-creators:
+sources:
   - name: Fishermen INC
+    identifier: https://data.brreg.no/enhetsregisteret/api/enheter/<ORGNUMMER>
     harvesters:
       - stack: aws
         access_key_id: access-key-id-string
         secret_access_key: secret-access-key-string
   - name: NanoSoft
+    identifier: https://data.brreg.no/enhetsregisteret/api/enheter/<ORGNUMMER>
     harvesters:
       - stack: azure
         client_id: graage-feas-aeff-feafe-eafewafawfee
@@ -12,6 +14,7 @@ creators:
         subscription_id: fewafewa-opea-erae-foje-jopfaewjp
         tenant_id: pofesj-eopf-eopj-1321-ojpeajfpowa
   - name: Flaskeetaten
+    identifier: https://data.brreg.no/enhetsregisteret/api/enheter/<ORGNUMMER>
     harvesters:
       - stack: kong
         exporter_url: https://kong-api-exporter.env.corp..no/services

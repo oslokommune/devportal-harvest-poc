@@ -27,6 +27,6 @@ def deploy(creator, harvester):
         input = str(template).encode('utf-8')
     )
 
-for creator in data['creators'][:1]:
-    for harvester in creator['harvesters']:
-        deploy(creator, harvester)
+for source in data['sources'][:1]:
+    for harvester in source['harvesters']:
+        deploy(source, harvester)
