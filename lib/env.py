@@ -46,5 +46,6 @@ def extractStackEnv(harvester):
 ## Creator env handling
 def extractCreatorEnv(producer):
     return {
-        'CREATOR_NAME': ensureDNS1123(producer['name'])
+        'SOURCE_NAME': ensureDNS1123(producer['name']),
+        'SOURCE_IDENTIFIER': producer['identifier']
     }

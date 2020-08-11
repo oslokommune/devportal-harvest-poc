@@ -41,6 +41,12 @@ class Job():
     def __str__(self):
         env = list()
 
+        for item in ['SOURCE_NAME', 'SOURCE_IDENTIFIER']:
+            env.append({
+                'name': item,
+                'value': self.env[item]
+            })
+
         for item in SECRETS:
             if item in self.env:
                 env.append({
@@ -60,7 +66,7 @@ class Job():
     def name(self):
         return '-'.join([
             'harvest',
-            self.env['CREATOR_NAME'],
+            self.env['SOURCE_NAME'],
             self.env['STACK']
         ])
 
