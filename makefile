@@ -23,12 +23,21 @@ create-dotenv-file:
 	@echo "KONG_EXPORTER_KEY=" >> .env
 	@echo "Remember to run 'export $$(cat .env)'"
 
-harvest:
-	mkdir -p data
-	${PYTHON} harvester/aws.py >> data/aws.json
+build:
+	mkdir -p harvester/{aws,azure,kong}/build
+	cp -r harvester/lib harvester/aws/build/lib
+	cp -r harvester/lib harvester/azure/build/lib
+	cp -r harvester/lib harvester/kong/build/lib
+clean:
+	rm -r harvester/{aws,azure,kong}/build
 
-distribute:
-	${PYTHON} distributor/dataplatform.py data/aws.json
+/data/:
+	mkdir -p data
+
+harvest: /data/
+	${PYTHON} harvester/aws/aws.py > data/aws.json
+	${PYTHON} harvester/azure/azure.py > data/azure.json
+	${PYTHON} harvester/kong/kong.py > data/kong.json
 
 turtle:
 	@${PYTHON} tools/json_merger.py data | ${PYTHON} writer/turtle.py

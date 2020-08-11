@@ -2,6 +2,8 @@
 import json
 import requests
 import os
+from build.lib.api import API
+from build.lib.source import Source
 
 CLIENT_ID = os.environ.get('AZURE_CLIENT_ID')
 CLIENT_SECRET = os.environ.get('AZURE_CLIENT_SECRET')
@@ -65,8 +67,9 @@ def getAPIs(token, subscription_id, gateway):
 token = acquireToken(TENANT_ID, CLIENT_ID, CLIENT_SECRET)
 gateways = getGateways(token, SUBSCRIPTION_ID)
 
+source = Source.loadFromEnv()
 apis = list()
 for gateway in gateways:
-    apis += getAPIs(token, SUBSCRIPTION_ID, gateway)
+    apis += [ API(api['name'], source.identifier) for api in getAPIs(token, SUBSCRIPTION_ID, gateway) ]
 
-print(json.dumps([ { 'title': api['name'] } for api in apis ]))
+print(json.dumps([ api.serialize() for api in apis ]))

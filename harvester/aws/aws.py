@@ -4,6 +4,9 @@ import os
 import boto3
 from botocore.config import Config
 
+from build.lib.source import Source
+from build.lib.api import API
+
 config = Config(
     region_name = 'eu-north-1',
     signature_version = 'v4',
@@ -18,10 +21,15 @@ credentials = {
     'aws_secret_access_key': os.environ['AWS_SECRET_ACCESS_KEY']
 }
 
+source = Source.loadFromEnv()
+
 client = boto3.client('apigateway', **credentials, config=config)
-
-
 response = client.get_rest_apis()
-apis = [ { 'title': item['name'] } for item in response['items'] ]
+
+apis = list()
+for raw_api in response['items']:
+    api = API(raw_api['name'], source.identifier)
+
+    apis.append(api.serialize())
 
 print(json.dumps(apis))
