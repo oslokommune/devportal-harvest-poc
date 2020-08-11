@@ -2,7 +2,7 @@ REPOSITORY=container-registry.oslo.kommune.no
 NAME=latest-provider
 CHART_DIR=charts/latest_provider
 
-build:
+build-image:
 	docker build \
 		--tag ${REPOSITORY}/${NAME} \
 		.
