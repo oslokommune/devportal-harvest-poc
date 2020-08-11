@@ -6,5 +6,6 @@ COPY requirements.txt .
 RUN pip install -r requirements.txt
 
 COPY kong.py .
+COPY build ./build/
 
 CMD ["python", "kong.py"]

@@ -2,7 +2,7 @@ REPOSITORY=container-registry.oslo.kommune.no
 NAME=azure-harvester
 
 
-build:
+build-image:
 	docker build --tag ${REPOSITORY}/${NAME} .
 push:
 	docker push ${REPOSITORY}/${NAME}

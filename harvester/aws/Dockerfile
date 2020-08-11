@@ -6,5 +6,6 @@ COPY requirements.txt .
 RUN pip install -r requirements.txt
 
 COPY aws.py .
+COPY build ./build/
 
 CMD ["python", "aws.py"]
