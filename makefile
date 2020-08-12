@@ -24,12 +24,16 @@ create-dotenv-file:
 	@echo "Remember to run 'export $$(cat .env)'"
 
 build:
-	mkdir -p harvester/{aws,azure,kong}/build
+	mkdir -p harvester/aws/build
+	mkdir -p harvester/azure/build
+	mkdir -p harvester/kong/build
 	cp -r harvester/lib harvester/aws/build/lib
 	cp -r harvester/lib harvester/azure/build/lib
 	cp -r harvester/lib harvester/kong/build/lib
 clean:
-	rm -r harvester/{aws,azure,kong}/build
+	rm -r harvester/aws/build
+	rm -r harvester/azure/build
+	rm -r harvester/kong/build
 
 /data/:
 	mkdir -p data
