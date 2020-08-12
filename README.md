@@ -42,7 +42,7 @@ file, the ctl.py script will generate cronjobs that will pipe their output
 to a persistent volume.
 
 The latest_provider service will upon a GET request to /apis expose the sum of all the
-.json files in the mentionted persistent volume claim.
+.json files in the mentioned persistent volume claim.
 
 The harvester frontend does a GET /apis to the latest_provider service and presents
 the result.
