@@ -3,8 +3,6 @@ import sys
 from rdflib import URIRef, Graph, Literal, RDF, BNode
 from rdflib.namespace import DCAT, DCTERMS, FOAF
 
-from datacatalogtordf import Catalog, DataService
-
 data = json.loads(sys.stdin.read())
 
 g = Graph()
