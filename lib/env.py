@@ -24,7 +24,7 @@ def ensureDNS1123(name):
 def extractSecrets(harvester):
     env = {
         'STACK': harvester['stack'],
-        'STACK_NAME': harvester.get('name', 'default')
+        'STACK_NAME': ensureDNS1123(harvester.get('name', 'default'))
     }
 
     for secret in SECRETS:
