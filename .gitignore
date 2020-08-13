@@ -1,4 +1,5 @@
 .env
+sources.yaml
 
 /**/build/
 /**/.venv/

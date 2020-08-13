@@ -5,6 +5,7 @@ init:
 	python -m venv .venv
 	${PIP} install -r requirements.txt
 
+# This is only relevant for running the scripts locally
 create-dotenv-file:
 	@echo "SOURCE_NAME=# Name of the API gateway owner" >> .env
 	@echo "SOURCE_IDENTIFIER=#URL to the API gateway owner containing json information about them" >> .env
