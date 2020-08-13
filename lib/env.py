@@ -1,51 +1,41 @@
+SECRETS = [
+    # AWS
+    'AWS_ACCESS_KEY_ID', 'AWS_SECRET_ACCESS_KEY',
+    # Azure
+    'AZURE_SUBSCRIPTION_ID', 'AZURE_TENANT_ID',
+    'AZURE_CLIENT_ID', 'AZURE_CLIENT_SECRET',
+    # Kong
+    'KONG_EXPORTER_URL', 'KONG_EXPORTER_KEY'
+]
+
+def envVarToYaml(string):
+    return string.lower().replace('_', '-')
+def yamlVarToEnv(string):
+    return string.upper().replace('-', '_')
+
 def ensureDNS1123(name):
     return name \
-        .lower() \
-        .replace(' ', '-') \
-        .replace('æ', 'ae') \
-        .replace('ø', 'oe') \
-        .replace('å', 'aa')
+            .lower() \
+            .replace(' ', '-') \
+            .replace('æ', 'ae') \
+            .replace('ø', 'oe') \
+            .replace('å', 'aa')
 
-## Stack env handling
-def extractAWSEnv(harvester):
-    env = dict()
+def extractSecrets(harvester):
+    env = { 'STACK': harvester['stack'] }
 
-    env['AWS_ACCESS_KEY_ID'] = harvester['access_key_id']
-    env['AWS_SECRET_ACCESS_KEY'] = harvester['secret_access_key']
+    for secret in SECRETS:
+        secret_as_yaml_var = envVarToYaml(secret).split('-', 1)[1]
 
-    return env
-def extractAzureEnv(harvester):
-    env = dict()
-
-    env['AZURE_CLIENT_ID'] = harvester['client_id']
-    env['AZURE_CLIENT_SECRET'] = harvester['client_secret']
-    env['AZURE_SUBSCRIPTION_ID'] = harvester['subscription_id']
-    env['AZURE_TENANT_ID'] = harvester['tenant_id']
+        if secret_as_yaml_var in harvester:
+            env[secret] = harvester[secret_as_yaml_var]
 
     return env
-def extractKongEnv(harvester):
-    env = dict()
-
-    env['KONG_EXPORTER_URL'] = harvester['exporter_url']
-    env['KONG_EXPORTER_KEY'] = harvester['exporter_key']
-
-    return env
-
-def extractStackEnv(harvester):
-    env = dict()
-
-    if harvester['stack'] == 'aws':
-        env = extractAWSEnv(harvester)
-    elif harvester['stack'] == 'azure':
-        env = extractAzureEnv(harvester)
-    elif harvester['stack'] == 'kong':
-        env = extractKongEnv(harvester)
-
-    return { 'STACK': harvester['stack'], **env }
 
 ## Creator env handling
-def extractCreatorEnv(producer):
+def extractSourceEnv(producer):
     return {
         'SOURCE_NAME': ensureDNS1123(producer['name']),
         'SOURCE_IDENTIFIER': producer['identifier']
     }
+
