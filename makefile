@@ -6,6 +6,8 @@ init:
 	${PIP} install -r requirements.txt
 
 create-dotenv-file:
+	@echo "SOURCE_NAME=# Name of the API gateway owner" >> .env
+	@echo "SOURCE_IDENTIFIER=#URL to the API gateway owner containing json information about them" >> .env
 	@echo "# Dataplatform distributor" >> .env
 	@echo "ORIGO_ENVIRONMENT=dev" >> .env
 	@echo "ORIGO_USERNAME=# Byrbruker" >> .env
