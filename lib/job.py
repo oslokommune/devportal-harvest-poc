@@ -2,21 +2,10 @@ from subprocess import run
 import base64
 import yaml
 
-SECRETS = [
-    # AWS
-    'AWS_ACCESS_KEY_ID', 'AWS_SECRET_ACCESS_KEY',
-    # Azure
-    'AZURE_SUBSCRIPTION_ID', 'AZURE_TENANT_ID',
-    'AZURE_CLIENT_ID', 'AZURE_CLIENT_SECRET',
-    # Kong
-    'KONG_EXPORTER_URL', 'KONG_EXPORTER_KEY'
-]
+from lib.env import SECRETS, envVarToYaml
 
 def encodeString(raw):
     return base64.b64encode(raw.encode('utf-8')).decode()
-
-def envVarToYaml(string):
-    return string.lower().replace('_', '-')
 
 class Job():
     @staticmethod
@@ -67,7 +56,8 @@ class Job():
         return '-'.join([
             'harvest',
             self.env['SOURCE_NAME'],
-            self.env['STACK']
+            self.env['STACK'],
+            self.env['STACK_NAME']
         ])
 
     def generateSecret(self):
