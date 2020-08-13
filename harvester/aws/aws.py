@@ -23,12 +23,20 @@ credentials = {
 
 source = Source.loadFromEnv()
 
-client = boto3.client('apigateway', **credentials, config=config)
-response = client.get_rest_apis()
+clientv1 = boto3.client('apigateway', **credentials, config=config)
+clientv2 = boto3.client('apigatewayv2', **credentials, config=config)
+
+response_v1 = clientv1.get_rest_apis()
+response_v2 = clientv2.get_apis()
 
 apis = list()
-for raw_api in response['items']:
+for raw_api in response_v1['items']:
     api = API(raw_api['name'], source.identifier)
+
+    apis.append(api.serialize())
+
+for raw_api in response_v2['Items']:
+    api = API(raw_api['Name'], source.identifier)
 
     apis.append(api.serialize())
 
