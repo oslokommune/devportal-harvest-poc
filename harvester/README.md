@@ -8,7 +8,8 @@ APIs associated with the configured environment
 ## How
 
 Each harvester runs in a docker container and pipes it's output to a
-PVC
+PVC. The output must conform to
+[this](https://github.com/oslokommune/devportal-harvest-poc/blob/master/docs/standard_json.json) structure.
 
 ## Configuration
 
