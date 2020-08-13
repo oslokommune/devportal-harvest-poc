@@ -22,7 +22,10 @@ def ensureDNS1123(name):
             .replace('å', 'aa')
 
 def extractSecrets(harvester):
-    env = { 'STACK': harvester['stack'] }
+    env = {
+        'STACK': harvester['stack'],
+        'STACK_NAME': harvester.get('name', 'default')
+    }
 
     for secret in SECRETS:
         secret_as_yaml_var = envVarToYaml(secret).split('-', 1)[1]

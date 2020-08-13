@@ -3,12 +3,18 @@ sources:
     identifier: https://data.brreg.no/enhetsregisteret/api/enheter/<ORGNUMMER>
     harvesters:
       - stack: aws
+        name: sailors
+        access-key-id: access-key-id-string
+        secret-access-key: secret-access-key-string
+      - stack: aws
+        name: captains
         access-key-id: access-key-id-string
         secret-access-key: secret-access-key-string
   - name: NanoSoft
     identifier: https://data.brreg.no/enhetsregisteret/api/enheter/<ORGNUMMER>
     harvesters:
       - stack: azure
+        name: default
         client-id: graage-feas-aeff-feafe-eafewafawfee
         client-secret: aojfpjeffjwpajfoeojfpwajfp
         subscription-id: fewafewa-opea-erae-foje-jopfaewjp
@@ -17,5 +23,10 @@ sources:
     identifier: https://data.brreg.no/enhetsregisteret/api/enheter/<ORGNUMMER>
     harvesters:
       - stack: kong
+        name: pepsi
+        exporter-url: https://kong-api-exporter.env.corp..no/services
+        exporter-key: somesecretapikeythingmabobber
+      - stack: kong
+        name: solo
         exporter-url: https://kong-api-exporter.env.corp..no/services
         exporter-key: somesecretapikeythingmabobber

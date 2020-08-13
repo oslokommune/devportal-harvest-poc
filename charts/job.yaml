@@ -24,7 +24,7 @@ spec:
               args:
                 - /bin/sh
                 - -c
-                - python /app/${STACK}.py > /data/${SOURCE_NAME}-${STACK}.json
+                - python /app/${STACK}.py > /data/${SOURCE_NAME}-${STACK}-${STACK_NAME}.json
           volumes:
             - name: harvest-output
               persistentVolumeClaim:
