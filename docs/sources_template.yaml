@@ -3,19 +3,19 @@ sources:
     identifier: https://data.brreg.no/enhetsregisteret/api/enheter/<ORGNUMMER>
     harvesters:
       - stack: aws
-        access_key_id: access-key-id-string
-        secret_access_key: secret-access-key-string
+        access-key-id: access-key-id-string
+        secret-access-key: secret-access-key-string
   - name: NanoSoft
     identifier: https://data.brreg.no/enhetsregisteret/api/enheter/<ORGNUMMER>
     harvesters:
       - stack: azure
-        client_id: graage-feas-aeff-feafe-eafewafawfee
-        client_secret: aojfpjeffjwpajfoeojfpwajfp
-        subscription_id: fewafewa-opea-erae-foje-jopfaewjp
-        tenant_id: pofesj-eopf-eopj-1321-ojpeajfpowa
+        client-id: graage-feas-aeff-feafe-eafewafawfee
+        client-secret: aojfpjeffjwpajfoeojfpwajfp
+        subscription-id: fewafewa-opea-erae-foje-jopfaewjp
+        tenant-id: pofesj-eopf-eopj-1321-ojpeajfpowa
   - name: Flaskeetaten
     identifier: https://data.brreg.no/enhetsregisteret/api/enheter/<ORGNUMMER>
     harvesters:
       - stack: kong
-        exporter_url: https://kong-api-exporter.env.corp..no/services
-        exporter_key: somesecretapikeythingmabobber
+        exporter-url: https://kong-api-exporter.env.corp..no/services
+        exporter-key: somesecretapikeythingmabobber
