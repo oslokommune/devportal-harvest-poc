@@ -17,7 +17,7 @@ spec:
       imagePullSecrets:
         - name: regsecret
       containers:
-        - image: container-registry.oslo.kommune.no/latest-provider:latest
+        - image: container-registry.oslo.kommune.no/latest-provider:{{ .Values.version }}
           imagePullPolicy: Always
           name: "{{ .Chart.Name }}"
           env:
