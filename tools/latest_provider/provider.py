@@ -52,12 +52,14 @@ def get_apis():
 
     # TODO: Implement paging
     response = None
-    if request.headers['Accept'] == 'application/json':
+    mimetypes = request.headers['Accept'].split(',')
+
+    if 'application/json' in mimetypes:
         response = apisToJSONResponse(apis)
-    elif request.headers['Accept'] == 'text/turtle':
+    elif 'text/turtle' in mimetypes:
         response = apisToTurtleResponse(apis)
     else:
-        response = make_response(f'unknown mimetype {request.headers["Accept"]}')
+        response = make_response(f'unknown mimetype {mimetypes}')
 
     response.headers['Access-Control-Allow-Origin'] = '*'
 
