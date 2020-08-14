@@ -7,6 +7,7 @@ COPY requirements.txt .
 RUN pip install -r requirements.txt
 
 COPY provider.py .
-COPY json_merger.py .
+COPY scripts/json_merger.py ./scripts/json_merger.py
+COPY scripts/turtle.py ./scripts/turtle.py
 
 CMD ["gunicorn", "-b", "0.0.0.0:5000", "provider:app"]
