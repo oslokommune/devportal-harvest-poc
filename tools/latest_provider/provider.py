@@ -14,6 +14,24 @@ def preflight():
 
     return response
 
+def apisToJSONResponse(apis):
+    response = make_response(json.dumps(apis))
+    response.mimetype = 'application/json'
+
+    return response
+def apisToTurtleResponse(apis):
+    cmd = ['python', 'scripts/turtle.py']
+    process = subprocess.run(
+        cmd,
+        capture_output = True,
+        input = json.dumps(apis).encode('utf-8')
+    )
+
+    response = make_response(process.stdout.decode())
+    response.mimetype = 'text/turtle'
+
+    return response
+
 @app.route('/apis', methods=['GET', 'OPTIONS'])
 def get_apis():
     if request.method == 'OPTIONS':
@@ -21,7 +39,7 @@ def get_apis():
 
     apis = []
 
-    cmd = ['python', 'json_merger.py', DATA_DIR]
+    cmd = ['python', 'scripts/json_merger.py', DATA_DIR]
     merger = subprocess.run(cmd, capture_output=True)
     data = json.loads(merger.stdout.decode())
 
@@ -33,8 +51,14 @@ def get_apis():
         apis.append(api)
 
     # TODO: Implement paging
-    response = make_response(json.dumps(apis))
-    response.mimetype = 'application/json'
+    response = None
+    if request.headers['Accept'] == 'application/json':
+        response = apisToJSONResponse(apis)
+    elif request.headers['Accept'] == 'text/turtle':
+        response = apisToTurtleResponse(apis)
+    else:
+        response = make_response(f'unknown mimetype {request.headers["Accept"]}')
+
     response.headers['Access-Control-Allow-Origin'] = '*'
 
     return response
