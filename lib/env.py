@@ -1,11 +1,16 @@
 SECRETS = [
-    # AWS
+    # Harvesters
+    ## AWS
     'AWS_ACCESS_KEY_ID', 'AWS_SECRET_ACCESS_KEY',
-    # Azure
+    ## Azure
     'AZURE_SUBSCRIPTION_ID', 'AZURE_TENANT_ID',
     'AZURE_CLIENT_ID', 'AZURE_CLIENT_SECRET',
-    # Kong
-    'KONG_EXPORTER_URL', 'KONG_EXPORTER_KEY'
+    ## Kong
+    'KONG_EXPORTER_URL', 'KONG_EXPORTER_KEY',
+    # Distributors
+    ## Dataplatform
+    'ORIGO_ENVIRONMENT', 'ORIGO_USERNAME',
+    'ORIGO_PASSWORD', 'DATAPLATFORM_DATASET_ID'
 ]
 
 def envVarToYaml(string):
@@ -21,11 +26,13 @@ def ensureDNS1123(name):
             .replace('ø', 'oe') \
             .replace('å', 'aa')
 
-def extractSecrets(harvester):
-    env = {
+def extractMetadata(harvester):
+    return {
         'STACK': harvester['stack'],
         'STACK_NAME': ensureDNS1123(harvester.get('name', 'default'))
     }
+def extractSecrets(harvester):
+    env = dict()
 
     for secret in SECRETS:
         secret_as_yaml_var = envVarToYaml(secret).split('-', 1)[1]
