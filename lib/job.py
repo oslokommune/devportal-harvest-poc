@@ -7,9 +7,9 @@ from lib.env import SECRETS, envVarToYaml
 def encodeString(raw):
     return base64.b64encode(raw.encode('utf-8')).decode()
 
-class Job():
-    @staticmethod
-    def loadFile(path, env):
+class Job(object):
+    @classmethod
+    def loadFile(cls, path, env):
         jobTemplate = ''
         with open(path, 'r') as f:
             jobTemplate = f.read()
@@ -21,16 +21,21 @@ class Job():
             input = jobTemplate.encode('utf-8')
         )
 
-        return Job(interpolatedTemplate.stdout.decode(), env)
+        return cls(interpolatedTemplate.stdout.decode(), env)
 
     def __init__(self, template, env):
         self.template = yaml.load(template, Loader=yaml.FullLoader)
         self.env = env
+        self.required_environment_vars = list()
+
+    @property
+    def name(self):
+        return 'jobname'
 
     def __str__(self):
         env = list()
 
-        for item in ['SOURCE_NAME', 'SOURCE_IDENTIFIER']:
+        for item in self.required_environment_vars:
             env.append({
                 'name': item,
                 'value': self.env[item]
@@ -51,6 +56,26 @@ class Job():
 
         return yaml.dump(computedTemplate)
 
+    def generateSecret(self):
+        secret = {
+            'apiVersion': 'v1',
+            'kind': 'Secret',
+            'metadata': { 'name': self.name },
+            'type': 'Opaque',
+            'data': dict()
+        }
+
+        for item in SECRETS:
+            if item in self.env:
+                secret['data'][envVarToYaml(item)] = encodeString(self.env[item])
+
+        return yaml.dump(secret)
+
+class HarvestJob(Job):
+    def __init__(self, template, env):
+        super().__init__(template, env)
+        self.required_environment_vars = [ 'SOURCE_NAME', 'SOURCE_IDENTIFIER' ]
+
     @property
     def name(self):
         return '-'.join([
@@ -60,20 +85,14 @@ class Job():
             self.env['STACK_NAME']
         ])
 
-    def generateSecret(self):
-        secret = {
-            'apiVersion': 'v1',
-            'kind': 'Secret',
-            'metadata': { 'name': self.name },
-            'type': 'Opaque',
-        }
 
-        data = dict()
+class DistributeJob(Job):
+    def __init__(self, template, env):
+        super().__init__(template, env)
 
-        for item in SECRETS:
-            if item in self.env:
-                data[envVarToYaml(item)] = encodeString(self.env[item])
-
-        secret['data'] = data
-
-        return yaml.dump(secret)
+    @property
+    def name(self):
+        return '-'.join([
+            'distribute',
+            self.env['STACK']
+        ])

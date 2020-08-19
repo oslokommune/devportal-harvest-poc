@@ -1,5 +1,6 @@
 .env
 sources.yaml
+distributors.yaml
 
 /**/build/
 /**/.venv/

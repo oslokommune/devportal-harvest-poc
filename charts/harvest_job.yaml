@@ -1,0 +1,39 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+
+metadata:
+  name: harvester
+
+spec:
+  schedule: "*/1 * * * *"
+  failedJobsHistoryLimit: 2
+  successfulJobsHistoryLimit: 2
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          imagePullSecrets:
+            - name: regsecret
+          containers:
+            - name: ${STACK}-harvester
+              image: container-registry.oslo.kommune.no/${STACK}-harvester:latest
+              volumeMounts:
+                - name: harvest-output
+                  mountPath: /data
+                - name: temp
+                  mountPath: /tmp
+              args:
+                - /bin/sh
+                - -c
+                - python /app/${STACK}.py > /tmp/${SOURCE_NAME}-${STACK}-${STACK_NAME}.json
+                - "&&"
+                - mv
+                - /tmp/${SOURCE_NAME}-${STACK}-${STACK_NAME}.json
+                - /data/
+          volumes:
+            - name: harvest-output
+              persistentVolumeClaim:
+                claimName: harvest-output
+            - name: temp
+              emptyDir: {}

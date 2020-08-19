@@ -2,7 +2,7 @@ apiVersion: batch/v1beta1
 kind: CronJob
 
 metadata:
-  name: harvester
+  name: distributor
 
 spec:
   schedule: "*/1 * * * *"
@@ -16,16 +16,20 @@ spec:
           imagePullSecrets:
             - name: regsecret
           containers:
-            - name: ${STACK}-harvester
-              image: container-registry.oslo.kommune.no/${STACK}-harvester:latest
+            - name: ${STACK}-distributor
+              image: container-registry.oslo.kommune.no/${STACK}-distributor:latest
               volumeMounts:
                 - name: harvest-output
                   mountPath: /data
+                - name: tmp
+                  mountPath: /tmp
               args:
                 - /bin/sh
                 - -c
-                - python /app/${STACK}.py > /data/${SOURCE_NAME}-${STACK}-${STACK_NAME}.json
+                - python /app/json_merger.py /data | python ${STACK}.py
           volumes:
             - name: harvest-output
               persistentVolumeClaim:
                 claimName: harvest-output
+            - name: tmp
+              emptyDir: {}
