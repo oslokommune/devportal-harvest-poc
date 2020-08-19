@@ -3,31 +3,40 @@
 ## Setup
 1. `git clone git@github.com:oslokommune/devportal-harvest-poc.git`
 2. `make init`
+3. `source .venv/bin/activate`
 
-## Configure
-1. Create a [sources.yaml](https://github.com/oslokommune/devportal-harvest-poc/blob/master/docs/sources_template.yaml) file
-
-## Usage
-`cat sources.yaml | python harvest.py`
-
-This command generates a k8s cronjob for each of the specified harvesters per
-source.
-
-## Deploy harvesters
-
+## Preparation
 1. kubectl apply -f charts/harvest-output-pvc. This is the PVC where all the
-	 harvesters will pipe their output and the latest_provider will read from
-2. `make build`
-3. Create and configure a [sources.yaml](https://github.com/oslokommune/devportal-harvest-poc/blob/master/docs/sources_template.yaml)
-4. Run the step in Usage
+	 harvesters will pipe their output to and where the latest_provider and distributors will read from
+2. Create and configure a [sources.yaml](https://github.com/oslokommune/devportal-harvest-poc/blob/master/docs/sources_template.yaml) file
+3. Create and configure a [distributors.yaml](https://github.com/oslokommune/devportal-harvest-poc/blob/master/docs/distributors_template.yaml) file
 
-## Deploy latest_provider
+## Deployment
+### Deploy harvesters
+1. `make build`
+2. `cat sources.yaml | python harvest.py`
 
+### Deploy distributor
+1. `cat distributors.yaml | python distribute.py`
+
+### Deploy latest_provider
 1. `cd tools/latest_provider`
 2. `make deploy-test`
 
-## Concepts
+## Running locally
+1. `make create-dotenv-file` and configure the variables needed for the
+	 harvester or distributor you want to run
+2. `export $(cat .env)`
+3. `pip install <path to relevant requirements.txt>`
+4. `python relevant_script.py`
 
+For example, if running the AWS harvester:
+1. Configure the variables prefixed with AWS_ in .env file
+2. `export $(cat .env)`
+3. `pip install harvester/aws/requirements.txt`
+4. `python harvester/aws/aws.py`
+
+## Concepts
 ### Harvester
 A harvester is a self contained service which based on an environment will print
 out all the APIs associated with the configured environment.
