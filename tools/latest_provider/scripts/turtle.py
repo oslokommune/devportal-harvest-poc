@@ -1,5 +1,6 @@
 import json
 import sys
+import urllib.parse
 from rdflib import URIRef, Graph, Literal, RDF, BNode
 from rdflib.namespace import DCAT, DCTERMS, FOAF
 
@@ -10,7 +11,7 @@ g.bind('dcat', DCAT)
 g.bind('dct', DCTERMS)
 g.bind('foaf', FOAF)
 
-catalog = URIRef('920204368')
+catalog = URIRef('https://harvester-frontend.k8s-test.oslo.kommune.no')
 
 g.add((catalog, RDF.type, DCAT.Catalog))
 g.add((
@@ -34,10 +35,9 @@ g.add((
     Literal('https://www.oslo.kommune.no')
 ))
 
-identifier = 0
 for item in data:
-    identifier += 1
-    item['identifier'] = f'https://developer.oslo.kommune.no/katalog/api/{identifier}/'
+    item['identifier'] = 'https://harvester-frontend.k8s-test.oslo.kommune.no/katalog/api/'
+    item['identifier'] += urllib.parse.quote(item['title'])
 
     api = URIRef(item['identifier'])
 
