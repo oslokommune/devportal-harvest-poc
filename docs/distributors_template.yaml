@@ -1,0 +1,5 @@
+distributors:
+  - name: name-of-distributor
+    username: technoman
+    password: mittpassord
+    key3: val3
