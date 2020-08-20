@@ -9,6 +9,10 @@ data = yaml.load(sys.stdin.read(), Loader=yaml.FullLoader)
 
 KUBECTL_APPLY = ['kubectl', '--namespace', 'developerportal-test', 'apply', '-f', '-']
 
+if len(sys.argv) > 1:
+    if '-d' in sys.argv:
+        KUBECTL_APPLY.insert(1, '--dry-run=client')
+
 def deploy(source, harvester):
     metadata_env = extractMetadata(harvester)
     stack_env = extractSecrets(harvester)
