@@ -1,5 +1,7 @@
 # devportal-harvest-poc
 
+Data flow diagram: https://docs.google.com/drawings/d/1Kdmk0tvVnVhk0weMl3SULSFyyQnd77SwSwZIiTAIQhM/edit
+
 ## Setup
 1. `git clone git@github.com:oslokommune/devportal-harvest-poc.git`
 2. `make init`
