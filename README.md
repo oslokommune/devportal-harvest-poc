@@ -1,4 +1,4 @@
-# devportal-harvest-poc
+# Proof of concept for harvesting and distributing API metadata
 
 Data flow diagram: https://docs.google.com/drawings/d/1Kdmk0tvVnVhk0weMl3SULSFyyQnd77SwSwZIiTAIQhM/edit
 
