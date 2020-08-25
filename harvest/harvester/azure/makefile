@@ -2,6 +2,9 @@ REPOSITORY=container-registry.oslo.kommune.no
 NAME=azure-harvester
 VERSION=0.0.2
 
+.venv:
+	python -m venv .venv
+	.venv/bin/pip install -r requirements.txt
 
 build-image:
 	docker build \
