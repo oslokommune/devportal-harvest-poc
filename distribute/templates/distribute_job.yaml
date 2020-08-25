@@ -1,0 +1,35 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+
+metadata:
+  name: distributor
+
+spec:
+  schedule: "* */1 * * *"
+  failedJobsHistoryLimit: 2
+  successfulJobsHistoryLimit: 2
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          imagePullSecrets:
+            - name: regsecret
+          containers:
+            - name: ${STACK}-distributor
+              image: container-registry.oslo.kommune.no/${STACK}-distributor:latest
+              volumeMounts:
+                - name: harvest-output
+                  mountPath: /data
+                - name: tmp
+                  mountPath: /tmp
+              args:
+                - /bin/sh
+                - -c
+                - python /app/json_merger.py /data | python ${STACK}.py
+          volumes:
+            - name: harvest-output
+              persistentVolumeClaim:
+                claimName: harvest-output
+            - name: tmp
+              emptyDir: {}
