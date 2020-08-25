@@ -21,9 +21,6 @@ init: .venv .env
 ../data/:
 	mkdir -p ../data
 
-latest.ttl: ../data/
-	${PYTHON} ../tools/json_merger.py ../data/ | ${PYTHON} ../tools/latest_provider/scripts/turtle.py > latest.ttl
-
 distribute: ../data/
 	${PYTHON} ../tools/json_merger.py ../data/ | ${PYTHON} distributors/dataplatform/dataplatform.py
 
