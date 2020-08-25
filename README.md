@@ -1,6 +1,6 @@
 # Proof of concept for harvesting and distributing API metadata
 
-[Data flow diagram](docs/data-flow.png)
+[Data flow diagram](docs/data-flow.vpd.png)
 
 ## Setup
 1. `git clone git@github.com:oslokommune/devportal-harvest-poc.git`
