@@ -7,7 +7,7 @@ For å kunne høste API-navn fra AWS trenger vi følgende informasjon:
 3. Regionen der Gatewayen bor
 
 Brukeren assosiert med denne nøkkelen trenger følgende rettigheter:
-```
+```json
 {
 		"Effect": "Allow",
 		"Action": "apigateway:GET",
