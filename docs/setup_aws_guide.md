@@ -50,3 +50,11 @@ via webgrensesnittet [her](#-Via-Webgrensenitt)
 9. Trykk "Create user".
 10. Trykk "Download .csv". Denne filen krypteres og sendes til
 		developerportal@oslo.kommune.no.
+
+## FAQ
+### Kryptering av fil
+1. `wget https://raw.githubusercontent.com/oslokommune/devportal-harvest-poc/master/docs/public_key.pgp`
+2. `gpg --import public_key.pgp`
+3. `gpg --encrypt --sign --armor -r julius.pedersen@byr.oslo.kommune.no new_user_credentials.csv`
+4. Det vil nå være en kryptert fil i arbeidsmappen som heter `new_user_credentials.csv.asc`, dette
+	er filen som skal sendes til `developerportal@oslo.kommune.no`
