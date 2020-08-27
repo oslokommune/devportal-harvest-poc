@@ -22,7 +22,7 @@ init: .venv .env
 	mkdir -p ../data
 
 distribute: ../data/
-	${PYTHON} ../tools/json_merger.py ../data/ | ${PYTHON} distributors/dataplatform/dataplatform.py
+	${PYTHON} ../tools/json_merger.py ../data/ | ${PYTHON} distributor/dataplatform/dataplatform.py
 
 clean:
 	rm -r .venv
