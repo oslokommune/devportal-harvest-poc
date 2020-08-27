@@ -30,7 +30,7 @@ spec:
                 - "&&"
                 - mv
                 - /tmp/${SOURCE_NAME}-${STACK}-${STACK_NAME}.json
-                - /data/
+                - /data/raw/
           volumes:
             - name: harvest-output
               persistentVolumeClaim:
