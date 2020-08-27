@@ -1,6 +1,7 @@
 # Proof of concept for harvesting and distributing API metadata
 
 [Data flow diagram](docs/data-flow.vpd.png)
+[Pipeline flow diagram](docs/poc_pipeline_flow.png)
 
 ## Harvest
 More information regarding harvesting can be found [here](https://github.com/oslokommune/devportal-harvest-poc/tree/master/harvest)
