@@ -23,14 +23,6 @@ spec:
                   mountPath: /data
                 - name: temp
                   mountPath: /tmp
-              args:
-                - /bin/sh
-                - -c
-                - python /app/${STACK}.py > /tmp/${SOURCE_NAME}-${STACK}-${STACK_NAME}.json
-                - "&&"
-                - mv
-                - /tmp/${SOURCE_NAME}-${STACK}-${STACK_NAME}.json
-                - /data/raw/
           volumes:
             - name: harvest-output
               persistentVolumeClaim:

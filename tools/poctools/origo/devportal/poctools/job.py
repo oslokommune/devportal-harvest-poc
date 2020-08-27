@@ -32,7 +32,11 @@ class Job(object):
 
     @property
     def name(self):
-        return 'jobname'
+        raise NotImplementedError
+
+    @property
+    def args(self):
+        raise NotImplementedError
 
     def __str__(self):
         env = list()
@@ -55,6 +59,7 @@ class Job(object):
         computed_template = {**self.template}
         computed_template['metadata']['name'] = self.name
         computed_template['spec']['jobTemplate']['spec']['template']['spec']['containers'][0]['env'] = env
+        computed_template['spec']['jobTemplate']['spec']['template']['spec']['containers'][0]['args'] = self.args
 
         return yaml.dump(computed_template)
 
@@ -88,6 +93,15 @@ class HarvestJob(Job):
             self.env['STACK_NAME']
         ])
 
+    @property
+    def args(self):
+        return [
+            '/bin/sh -c',
+            f'python /app/{self.env["STACK"]}.py > /tmp/output.json',
+            '&&',
+            f'mv /tmp/output.json /data/dataservice/01_raw/{self.name}'
+        ]
+
 
 class DistributeJob(Job):
     def __init__(self, template, env):
@@ -99,3 +113,11 @@ class DistributeJob(Job):
             'distribute',
             self.env['STACK']
         ])
+
+    @property
+    def args(self):
+        return [
+            '/bin/sh -c',
+            f'cat /data/dataservice/10_result/latest.json | python {self.env["STACK"]}.py'
+        ]
+
