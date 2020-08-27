@@ -12,8 +12,8 @@ Brukeren assosiert med denne nøkkelen trenger følgende rettigheter:
 		"Effect": "Allow",
 		"Action": "apigateway:GET",
 		"Resource": [
-				"arn:aws:apigateway:eu-central-1::/apis",
-				"arn:aws:apigateway:eu-central-1::/restapis"
+				"arn:aws:apigateway:<region hvor gateway kjører>::/apis",
+				"arn:aws:apigateway:<region hvor gateway kjører>::/restapis"
 		]
 }
 ```
@@ -21,7 +21,7 @@ Brukeren assosiert med denne nøkkelen trenger følgende rettigheter:
 Om dere bruker Terraform kan dere bruke
 [denne](https://github.com/oslokommune/devportal-harvest-poc/blob/master/docs/terraform_iam_config.tf) filen som inspirasjon. Hvis
 dere foretrekker webgrensesnitt så beskriver vi hvordan opprette en bruker
-via webgrensesnittet [her](#-Via-Webgrensenitt)
+via webgrensesnittet [her](#Via-Webgrensenitt)
 
 
 ## Via Webgrensesnitt
@@ -40,7 +40,7 @@ via webgrensesnittet [her](#-Via-Webgrensenitt)
 Litt avhengig av organisasjonsstrukturen deres kan en bruker enten lages eller
 bestilles. Hvis du har rettigheter til å lage en bruker kan
 [disse](#-lag-en-bruker) stegene følges. Hvis du derimot må bestille en bruker,
-følg [disse]() stegene
+les [her](#-jeg-får-ikke-lov-til-å-opprette-en-bruker) stegene
 
 #### Lag en bruker
 1. Gå til AWS sin [IAM](https://console.aws.amazon.com/iam) tjeneste og velg
@@ -48,32 +48,32 @@ følg [disse]() stegene
 2. Velg "Add user".
 3. Skriv inn et navn, eksempelvis "origo-api-harvester", og huk av for
 	 "Programmatic access".
-4. Velg "Next: Permissions" og følg stegene i [Konfigurer rettigheter](#-konfigurer-rettigheter)
+4. Velg "Next: Permissions" og følg stegene i [Konfigurer rettigheter](##-konfigurer-rettigheter)
 
 #### Jeg har fått tilegnet en bruker
 1. Gå til AWS sin [IAM](https://console.aws.amazon.com/iam) tjeneste og velg
 	 "Users" i menyen på venstre side.
 2. Velg den tilegnede brukeren i listen.
-3. Trykk "Add permissions" og følg stegene i [Konfigurer rettigheter](#-konfigurer-rettigheter)
+3. Trykk "Add permissions" og følg stegene i [Konfigurer rettigheter](##-konfigurer-rettigheter)
 
 ## Konfigurer rettigheter
 1. Trykk "Attach existing policies directly".
-2. Finn og velg policien vi lagde i "Lag en policy".
+2. Finn og velg policien vi lagde i [Lag en policy](#-lag-en-policy).
 3. Trykk "Next: Tags".
 4. Trykk "Next: Review".
 5. Trykk "Create user".
-6. Trykk "Download .csv". Denne filen krypteres og sendes til
+6. Trykk "Download .csv". Denne filen [krypteres](#-hvordan-krypterer-jeg-en-fil) og sendes til
 		developerportal@oslo.kommune.no.
 
 ## FAQ
-### Kryptering av fil
+### Hvordan krypterer jeg en fil
 1. `wget https://raw.githubusercontent.com/oslokommune/devportal-harvest-poc/master/docs/public_key.pgp`
 2. `gpg --import public_key.pgp`
 3. `gpg --encrypt --sign --armor -r julius.pedersen@byr.oslo.kommune.no new_user_credentials.csv`
 4. Det vil nå være en kryptert fil i arbeidsmappen som heter `new_user_credentials.csv.asc`, dette
 	er filen som skal sendes til `developerportal@oslo.kommune.no`
 
-### Jeg får ikke lov å opprette en bruker
+### Jeg får ikke lov til å opprette en bruker
 Hvis det er UKE som håndterer opprettelse av brukere for dere, så må det
 bestilles en bruker i Kompass. Etter brukeren har blitt opprettet kan stegene
 [her](#-jeg-har-fått-tilegnet-en-bruker) følges.
