@@ -7,6 +7,7 @@ from flask import Flask, make_response, request, Response
 app = Flask(__name__)
 
 DATA_DIR = os.environ['PROVIDER_DATA_DIR']
+DATASERVICE_DIR = os.path.join(DATA_DIR, 'dataservice')
 
 def preflight():
     response = make_response()
@@ -39,9 +40,9 @@ def get_apis():
 
     apis = []
 
-    cmd = ['python', 'scripts/json_merger.py', DATA_DIR]
-    merger = subprocess.run(cmd, capture_output=True)
-    data = json.loads(merger.stdout.decode())
+    data = list()
+    with open(os.path.join(DATASERVICE_DIR, '10_result', 'public.json'), 'r') as f:
+        data = json.loads(f.read())
 
     for item in data:
         api = {
