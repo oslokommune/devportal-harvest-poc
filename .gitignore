@@ -2,7 +2,11 @@
 sources.yaml
 distributors.yaml
 
+/**/dist/
+/**/*.egg-info/
 /**/build/
 /**/.venv/
 /data/
 /**/__pycache__/
+
+/.idea/
