@@ -6,7 +6,6 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 
-COPY scripts/json_merger.py ./scripts/json_merger.py
 COPY scripts/turtle.py ./scripts/turtle.py
 COPY provider.py .
 
