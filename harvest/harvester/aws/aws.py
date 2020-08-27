@@ -7,7 +7,7 @@ from botocore.config import Config
 from origo.devportal.poctools.models import API, Source
 
 config = Config(
-    region_name='eu-north-1',
+    region_name=os.environ['AWS_REGION'],
     signature_version='v4',
     retries={
         'max_attempts': 10,
