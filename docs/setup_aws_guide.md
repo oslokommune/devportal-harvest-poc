@@ -40,7 +40,7 @@ via webgrensesnittet [her](#via-webgrensenitt)
 Litt avhengig av organisasjonsstrukturen deres kan en bruker enten lages eller
 bestilles. Hvis du har rettigheter til å lage en bruker kan
 [disse](#lag-en-bruker) stegene følges. Hvis du derimot må bestille en bruker,
-les [her](#jeg-får-ikke-lov-til-å-opprette-en-bruker) stegene
+se [her](#jeg-får-ikke-lov-til-å-opprette-en-bruker).
 
 #### Lag en bruker
 1. Gå til AWS sin [IAM](https://console.aws.amazon.com/iam) tjeneste og velg
@@ -75,5 +75,9 @@ les [her](#jeg-får-ikke-lov-til-å-opprette-en-bruker) stegene
 
 ### Jeg får ikke lov til å opprette en bruker
 Hvis det er UKE som håndterer opprettelse av brukere for dere, så må det
-bestilles en bruker i Kompass. Etter brukeren har blitt opprettet kan stegene
-[her](#jeg-har-fått-tilegnet-en-bruker) følges.
+bestilles en bruker i Kompass. For å bestille bruker trenger UKE å vite
+følgende:
+* Navn på ny bruker
+* Hvilken AWS konto brukeren skal knyttes opp mot
+
+Etter brukeren har blitt opprettet kan stegene [her](#jeg-har-fått-tilegnet-en-bruker) følges.
