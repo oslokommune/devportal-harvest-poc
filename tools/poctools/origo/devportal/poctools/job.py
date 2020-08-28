@@ -99,7 +99,7 @@ class HarvestJob(Job):
             '/bin/sh -c',
             f'python /app/{self.env["STACK"]}.py > /tmp/output.json',
             '&&',
-            f'mv /tmp/output.json /data/dataservice/01_raw/{self.name}'
+            f'mv /tmp/output.json /data/dataservice/10_raw/{self.name}'
         ]
 
 
@@ -118,6 +118,6 @@ class DistributeJob(Job):
     def args(self):
         return [
             '/bin/sh -c',
-            f'cat /data/dataservice/10_result/latest.json | python {self.env["STACK"]}.py'
+            f'cat /data/dataservice/30_result/public.json | python {self.env["STACK"]}.py'
         ]
 
