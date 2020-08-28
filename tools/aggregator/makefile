@@ -4,6 +4,7 @@ VERSION=0.0.1
 
 .env:
 	@echo "AGGREGATIONS_PATH=" >> .env
+	@echo "RESULT_PATH=" >> .env
 
 .venv:
 	python -m venv .venv
