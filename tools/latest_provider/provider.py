@@ -41,7 +41,7 @@ def get_apis():
     apis = []
 
     data = list()
-    with open(os.path.join(DATASERVICE_DIR, '10_result', 'public.json'), 'r') as f:
+    with open(os.path.join(DATASERVICE_DIR, '30_result', 'public.json'), 'r') as f:
         data = json.loads(f.read())
 
     for item in data:
