@@ -2,21 +2,30 @@ PYTHON=.venv/bin/python
 PIP=.venv/bin/pip
 TWINE=.venv/bin/twine
 
+get-gopass-secret = $(or $(shell gopass show $(2) devportal/$(1)), $(error gopass command failed))
+
+help: ## print this menu
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+
 .venv:
 	python -m venv .venv
 	${PIP} install -r requirements.txt
 
-/dist/: build
-/build/: build
+init: .venv ## Initialize project
 
-build: .venv
+build: .venv ## Build distribution files
 	${PYTHON} setup.py sdist bdist_wheel
 
-publish: /dist/ /build/
-	${TWINE} upload dist/*
+/dist/: build
+/build/: build
+publish: /dist/ /build/ ## Publish to PyPi
+	$(eval PYPI_TOKEN := $(call get-gopass-secret,poc/pypi-poctools-token,-o))
+	@${TWINE} upload --non-interactive --username __token__ --password ${PYPI_TOKEN} dist/*
 
-clean:
+clean: ## Clean out the build files
 	rm -r build/ || true
 	rm -r dist/ || true
 	rm -r origo_devportal_poctools.egg-info/ || true
+
+purge: clean ## Clean out all generated files
 	rm -r .venv || true
