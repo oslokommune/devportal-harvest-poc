@@ -1,5 +1,8 @@
 # Harvest aggregator
 
+## Chart describing the aggregators role
+[Chart](https://github.com/oslokommune/devportal-harvest-poc/blob/master/tools/aggregator/docs/aggregator.png)
+
 ## What
 This service enriches the data harvested by the following means:
 
