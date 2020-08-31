@@ -1,6 +1,6 @@
 REPOSITORY=container-registry.oslo.kommune.no
 NAME=harvest-aggregator
-VERSION=0.0.1
+VERSION=0.0.3
 
 .env:
 	@echo "AGGREGATIONS_PATH=" >> .env
@@ -20,6 +20,9 @@ build-image:
 push:
 	docker push ${REPOSITORY}/${NAME}:latest
 	docker push ${REPOSITORY}/${NAME}:${VERSION}
+
+deploy-test:
+	kubectl apply -f charts/
 
 run:
 	@docker run \
