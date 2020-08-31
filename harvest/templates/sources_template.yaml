@@ -6,10 +6,12 @@ sources:
         name: sailors
         access-key-id: access-key-id-string
         secret-access-key: secret-access-key-string
+        region: eu-west-1
       - stack: aws
         name: captains
         access-key-id: access-key-id-string
         secret-access-key: secret-access-key-string
+        region: eu-north-1
   - name: NanoSoft
     identifier: https://data.brreg.no/enhetsregisteret/api/enheter/<ORGNUMMER>
     harvesters:
