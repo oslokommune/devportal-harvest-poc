@@ -7,11 +7,15 @@ from origo.devportal.poctools.job import HarvestJob
 
 data = yaml.load(sys.stdin.read(), Loader=yaml.FullLoader)
 
+DEBUG = False
 KUBECTL_APPLY = ['kubectl', '--namespace', 'developerportal-test', 'apply', '-f', '-']
 
 if len(sys.argv) > 1:
     if '-d' in sys.argv:
-        KUBECTL_APPLY.insert(1, '--dry-run=server')
+        DEBUG = True
+
+if DEBUG:
+    KUBECTL_APPLY.insert(1, '--dry-run=server')
 
 
 def deploy(source, harvester):
@@ -21,6 +25,9 @@ def deploy(source, harvester):
 
     env = {**source_env, **stack_env, **metadata_env}
     template = HarvestJob.loadFile('templates/harvest_job.yaml', env)
+
+    if DEBUG:
+        print(template)
 
     subprocess.run(
         KUBECTL_APPLY,
