@@ -3,11 +3,7 @@ PIP=.venv/bin/pip
 
 .venv:
 	python -m venv .venv
-	${PIP} install \
-		-r requirements.txt \
-		-r harvester/aws/requirements.txt \
-		-r harvester/azure/requirements.txt \
-		-r harvester/kong/requirements.txt
+	${PIP} install -r requirements.txt
 
 .env:
 	@echo "# Required by all harvesters" >> .env
