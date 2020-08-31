@@ -11,7 +11,10 @@ More information regarding distribution can be found [here](https://github.com/o
 
 ## Preparation
 kubectl apply -f charts/harvest-output-pvc. This is the PVC where all the
-harvesters will pipe their output to and where the latest_provider and distributors will read from
+harvesters will pipe their output to and where the latest_provider and distributors will read from.
+
+Manually create the following folders on the PVC:
+mkdir -p <pvc>/dataservice/{10_raw,20_aggregations,30_result}
 
 ## Stack
 Based on a [sources.yaml](https://github.com/oslokommune/devportal-harvest-poc/blob/master/harvest/templates/sources_template.yaml)
