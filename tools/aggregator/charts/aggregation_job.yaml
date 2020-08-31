@@ -1,0 +1,41 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+
+metadata:
+  name: harvest-aggregator
+
+spec:
+  schedule: "*/1 * * * *"
+  failedJobsHistoryLimit: 2
+  successfulJobsHistoryLimit: 2
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          imagePullSecrets:
+            - name: regsecret
+          containers:
+            - name: aggregator
+              image: container-registry.oslo.kommune.no/harvest-aggregator:latest
+              command:
+                - /bin/sh
+              args:
+                - -c
+                - python /app/json_merger.py /data/dataservice/10_raw | python /app/aggregator.py
+              env:
+                - name: AGGREGATIONS_PATH
+                  value: /data/dataservice/20_aggregations
+                - name: RESULT_PATH
+                  value: /data/dataservice/30_result
+              volumeMounts:
+                - name: harvest-output
+                  mountPath: /data
+                - name: temp
+                  mountPath: /tmp
+          volumes:
+            - name: harvest-output
+              persistentVolumeClaim:
+                claimName: harvest-output
+            - name: temp
+              emptyDir: {}
