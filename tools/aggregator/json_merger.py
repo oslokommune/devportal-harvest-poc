@@ -4,12 +4,7 @@ import os
 import sys
 
 folder = sys.argv[1]
-files = list()
-
-try:
-    files = os.listdir(folder)
-except FileNotFoundError:
-    print(f'[warning] The folder {folder} does not exist', file=sys.stderr)
+files = os.listdir(folder)
 
 apis = list()
 

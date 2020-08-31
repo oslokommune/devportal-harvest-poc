@@ -2,6 +2,7 @@ SECRETS = [
     # Harvesters
     ## AWS
     'AWS_ACCESS_KEY_ID', 'AWS_SECRET_ACCESS_KEY',
+    'AWS_REGION',
     ## Azure
     'AZURE_SUBSCRIPTION_ID', 'AZURE_TENANT_ID',
     'AZURE_CLIENT_ID', 'AZURE_CLIENT_SECRET',

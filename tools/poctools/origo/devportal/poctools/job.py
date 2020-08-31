@@ -1,5 +1,6 @@
-import subprocess
 import base64
+import os
+import subprocess
 import yaml
 
 from .env import SECRETS, envVarToYaml
@@ -32,7 +33,11 @@ class Job(object):
 
     @property
     def name(self):
-        return 'jobname'
+        raise NotImplementedError
+
+    @property
+    def args(self):
+        raise NotImplementedError
 
     def __str__(self):
         env = list()
@@ -54,7 +59,9 @@ class Job(object):
 
         computed_template = {**self.template}
         computed_template['metadata']['name'] = self.name
+        computed_template['spec']['jobTemplate']['spec']['template']['spec']['containers'][0]['command'] = ['/bin/sh']
         computed_template['spec']['jobTemplate']['spec']['template']['spec']['containers'][0]['env'] = env
+        computed_template['spec']['jobTemplate']['spec']['template']['spec']['containers'][0]['args'] = self.args
 
         return yaml.dump(computed_template)
 
@@ -88,6 +95,19 @@ class HarvestJob(Job):
             self.env['STACK_NAME']
         ])
 
+    @property
+    def args(self):
+        TMP_PATH = os.path.join('/tmp/', f'{self.name}.json')
+        RESULT_PATH = os.path.join('/data/dataservice/10_raw/', f'{self.name}.json')
+
+        cmd = ' '.join([
+            f'python /app/{self.env["STACK"]}.py > {TMP_PATH}',
+            '&&',
+            f'mv {TMP_PATH} {RESULT_PATH}'
+        ])
+
+        return ['-c', cmd]
+
 
 class DistributeJob(Job):
     def __init__(self, template, env):
@@ -99,3 +119,11 @@ class DistributeJob(Job):
             'distribute',
             self.env['STACK']
         ])
+
+    @property
+    def args(self):
+        return [
+            '-c',
+            f'cat /data/dataservice/30_result/public.json | python {self.env["STACK"]}.py'
+        ]
+

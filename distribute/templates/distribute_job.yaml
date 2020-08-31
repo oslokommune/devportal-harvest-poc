@@ -23,10 +23,6 @@ spec:
                   mountPath: /data
                 - name: tmp
                   mountPath: /tmp
-              args:
-                - /bin/sh
-                - -c
-                - python /app/json_merger.py /data | python ${STACK}.py
           volumes:
             - name: harvest-output
               persistentVolumeClaim:
