@@ -1,6 +1,6 @@
 REPOSITORY=container-registry.oslo.kommune.no
 NAME=latest-provider
-VERSION=0.0.7
+VERSION=0.0.8
 CHART_DIR=charts/latest_provider
 
 build-image:
