@@ -26,14 +26,7 @@ spec:
               args:
                 - /bin/sh
                 - -c
-#                - python /app/dataplatform-harvester.py
                 - python /app/dataplatform-harvester.py > /tmp/dataplatform-datasets.json && mkdir -p /data/dataset && mv /tmp/dataplatform-datasets.json /data/dataset
-#                - "&&"
-#                - mkdir -p /dataset
-#                - "&&"
-#                - mv
-#                - /tmp/dataplatform-datasets.json
-#                - /data/dataset
               env:
                 - name: DATASET_API_BASE_URL
                   value: https://api.data-dev.oslo.systems
