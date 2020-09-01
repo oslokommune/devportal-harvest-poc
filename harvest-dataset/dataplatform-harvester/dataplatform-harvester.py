@@ -1,5 +1,6 @@
 import requests
 import os
+import json
 
 DATASETS_BASE_URL = os.environ['DATASET_API_BASE_URL']
 
@@ -11,7 +12,7 @@ def get_datasets():
     if r.status_code != 200:
         raise Exception(f"Got unexpected status code: {r.status_code}")
 
-    return r.json()
+    return json.dumps(r.json())
 
 
 try:
