@@ -18,15 +18,19 @@ help: ## Print this menu
 
 init: .venv .env ## Init environment
 
+/data:
+	mkdir -p ../data/dataset
+
 run: ## Run harvester
-	export `cat .env` && ${PYTHON} dataplatform-harvester/dataplatform-harvester.py
+	export `cat .env` && ${PYTHON} dataplatform-harvester/dataplatform-harvester.py > ../data/dataset/dataplatform-datasets.json
+	cat ../data/dataset/dataplatform-datasets.json
 
 build:
 	docker build \
 		--tag ${REPOSITORY}/${NAME} \
 		dataplatform-harvester
 
-run-docker: build ## Run harvester in a docker container
+run-docker: ## Run harvester in a docker container
 	docker run \
 		--rm \
 		--env-file ./.env \
