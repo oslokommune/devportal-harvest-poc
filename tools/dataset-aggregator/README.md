@@ -12,8 +12,8 @@ the visibility level of a dataset with a given identifier.
 ```json
 {
 	"<original name>": "<visibility level>",
-	"example-api": "PUBLIC",
-	"private-example-api": "PROTECTED",
+	"example-dataset": "PUBLIC",
+	"private-example-dataset": "PROTECTED",
 	...
 }
 ```
