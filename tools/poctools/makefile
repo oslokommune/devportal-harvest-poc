@@ -18,7 +18,7 @@ build: .venv ## Build distribution files
 
 /dist/: build
 /build/: build
-publish: /dist/ /build/ ## Publish to PyPi
+publish: clean /dist/ /build/ ## Publish to PyPi
 	$(eval PYPI_TOKEN := $(call get-gopass-secret,poc/pypi-poctools-token,-o))
 	@${TWINE} upload --non-interactive --username __token__ --password ${PYPI_TOKEN} dist/*
 
@@ -29,3 +29,6 @@ clean: ## Clean out the build files
 
 purge: clean ## Clean out all generated files
 	rm -r .venv || true
+
+test: ## Run the library's tests.
+	${PYTHON} -m tests.dataset_test
