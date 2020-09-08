@@ -39,7 +39,7 @@ run-docker: ## Run harvester in a docker container
 push: build
 	docker push ${REPOSITORY}/${NAME}
 
-deploy: build push ## Deploy harvester to Kubernetes
+deploy: push ## Deploy harvester to Kubernetes
 	kubectl apply -f harvest_job.yaml
 
 clean: ## Clean stuff
