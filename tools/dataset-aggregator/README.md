@@ -1,15 +1,13 @@
 # Dataset harvest aggregator
 
-Similar to the [API-harvester](https://github.com/oslokommune/devportal-harvest-poc/tree/master/harvest), but
-harvests datasets instead of APIs.
-
 ## What
 
 This service adds visibility to previously harvested data sets.
 
 ### visibility.json
 
-visibility.json is a file that specifies the visibility level of a dataset with a given identifier.
+The input to this service is datasets to stdin and the file visibility.json. visibility.json is a file that specifies
+the visibility level of a dataset with a given identifier.
 
 ```json
 {
