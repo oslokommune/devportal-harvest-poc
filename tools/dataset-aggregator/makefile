@@ -10,9 +10,15 @@ help: ## Print this menu
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
 .env:
-	@echo "AGGREGATIONS_PATH=" >> .env
-	@echo "RESULT_PATH=" >> .env
-	@echo "TMP_PATH=../../data/tmp" >> .env
+	@echo "TMP_PATH=../../data/dataset/tmp" >> .env
+	@echo "AGGREGATIONS_PATH=../../data/dataset/20_aggregations" >> .env
+	@echo "RESULT_PATH=../../data/dataset/30_result" >> .env
+
+.PHONY: /data
+/data:
+	mkdir -p ../../data/dataset/tmp
+	mkdir -p ../../data/dataset/20_aggregations
+	mkdir -p ../../data/dataset/30_result
 
 .venv:
 	python -m venv .venv
@@ -25,6 +31,7 @@ build-image: ## Build docker image
 		--tag ${REPOSITORY}/${NAME}:latest \
 		--tag ${REPOSITORY}/${NAME}:${VERSION} \
 		.
+
 push: build-image ## Push docker image
 	docker push ${REPOSITORY}/${NAME}:latest
 	docker push ${REPOSITORY}/${NAME}:${VERSION}
@@ -34,12 +41,6 @@ run-docker: ## Run locally with Docker
 		--rm \
 		--env-file ./.env \
 		${REPOSITORY}/${NAME}
-
-.PHONY: /data
-/data:
-	mkdir -p ../../data/dataset/tmp
-	mkdir -p ../../data/dataset/20_aggregations
-	mkdir -p ../../data/dataset/30_result
 
 run: /data ## Run locally
 	export `cat .env` && cat ../../data/dataset/10_raw/dataplatform-datasets.json | ${PYTHON} aggregator.py
