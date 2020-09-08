@@ -1,6 +1,5 @@
 import json
 import os
-import requests
 import subprocess
 from flask import Flask, make_response, request, Response
 from logging.config import dictConfig
@@ -25,8 +24,8 @@ def preflight():
 
     return response
 
-def apisToJSONResponse(apis):
-    response = make_response(json.dumps(apis))
+def toJSONResponse(data):
+    response = make_response(json.dumps(data))
     response.mimetype = 'application/json'
 
     return response
@@ -67,7 +66,7 @@ def get_apis():
     mimetypes = request.headers['Accept'].split(',')
 
     if 'application/json' in mimetypes:
-        response = apisToJSONResponse(apis)
+        response = toJSONResponse(apis)
     elif 'text/turtle' in mimetypes:
         response = apisToTurtleResponse(apis)
     else:
@@ -86,6 +85,8 @@ def datasetsToTurtleResponse(datasets):
     )
 
     if process.returncode != 0:
+        app.logger.error("Process returned with non-zero exit code")
+        app.logger.error(process.stdout.decode())
         app.logger.error(process.stderr.decode())
         process.check_returncode()
 
@@ -99,15 +100,13 @@ def get_datasets():
     if request.method == 'OPTIONS':
         return preflight()
 
-    datasets = list()
-
-    with open(os.path.join(DATASET_DIR, 'dataplatform-datasets.json'), 'r') as f:
+    with open(os.path.join(DATASET_DIR, '30_result', 'public.json'), 'r') as f:
         datasets = json.loads(f.read())
 
     mimetypes = request.headers['Accept'].split(',')
 
     if 'application/json' in mimetypes:
-        response = make_response(json.dumps(datasets))
+        response = toJSONResponse(datasets)
     elif 'text/turtle' in mimetypes:
         response = datasetsToTurtleResponse(datasets)
     else:

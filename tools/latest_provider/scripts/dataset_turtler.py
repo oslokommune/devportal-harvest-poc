@@ -3,7 +3,6 @@ import sys
 
 from datacatalogtordf import Catalog, Dataset
 
-data = json.loads(sys.stdin.read())
 BASE_URL = "https://apis.k8s-test.oslo.kommune.no/katalog/data" # TODO: Get from env
 
 catalog = Catalog()
@@ -14,12 +13,15 @@ catalog.title = {
 }
 catalog.publisher = "https://w2.brreg.no/enhet/sok/detalj.jsp?orgnr=920204368"
 
+data = json.loads(sys.stdin.read())
+
 for item in data:
     dataset = Dataset()
-
-    dataset.identifier = f"{BASE_URL}/{item['Id']}"
+    dataset.identifier = f"{BASE_URL}/{item['identifier']}"
     dataset.title = { "nb": item["title"] }
     dataset.description = { "nb": item.get("description", "") }
+    # Needs to be an URI, while now it's just a string. Figure out later how to deal with this.
+    # dataset.publisher = item.get("publisher", "")
 
     catalog.datasets.append(dataset)
 
