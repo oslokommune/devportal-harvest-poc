@@ -2,7 +2,7 @@ from setuptools import setup, find_namespace_packages
 
 setup(
     name='origo-devportal-poctools',
-    version='0.0.3',
+    version='0.0.6',
     author='Oslo Origo',
     author_email='developerportal@oslo.kommune.no',
     description='A set of tools and models used by all parts of the harvest poc',
