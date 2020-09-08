@@ -5,6 +5,6 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 
-COPY dataplatform-harvester.py .
+COPY harvester.py .
 
-CMD ["python", "dataplatform-harvester.py"]
+CMD ["python", "harvester.py"]

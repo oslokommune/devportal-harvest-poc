@@ -22,13 +22,13 @@ init: .venv .env ## Init environment
 	mkdir -p ../data/dataset/10_raw
 
 run: /data ## Run harvester
-	export `cat .env` && ${PYTHON} dataplatform-harvester/dataplatform-harvester.py > ../data/dataset/10_raw/dataplatform-datasets.json
+	export `cat .env` && ${PYTHON} harvester.py > ../data/dataset/10_raw/dataplatform-datasets.json
 	cat ../data/dataset/10_raw/dataplatform-datasets.json
 
 build:
 	docker build \
 		--tag ${REPOSITORY}/${NAME} \
-		dataplatform-harvester
+		.
 
 run-docker: ## Run harvester in a docker container
 	docker run \
