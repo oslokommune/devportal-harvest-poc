@@ -5,7 +5,7 @@ metadata:
   name: dataset-harvest-aggregator
 
 spec:
-  schedule: "* */1 * * *"
+  schedule: "20 * * * *"
   failedJobsHistoryLimit: 2
   successfulJobsHistoryLimit: 2
   jobTemplate:
