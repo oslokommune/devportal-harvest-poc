@@ -5,7 +5,7 @@ metadata:
   name: dataplatform-dataset-harvester
 
 spec:
-  schedule: "*/1 * * * *"
+  schedule: "* */1 * * *"
   failedJobsHistoryLimit: 2
   successfulJobsHistoryLimit: 2
   jobTemplate:
@@ -26,7 +26,7 @@ spec:
               args:
                 - /bin/sh
                 - -c
-                - python /app/dataplatform-harvester.py > /tmp/dataplatform-datasets.json && mkdir -p /data/dataset && mv /tmp/dataplatform-datasets.json /data/dataset
+                - python /app/dataplatform-harvester.py > /tmp/dataplatform-datasets.json && mkdir -p /data/dataset/10_raw && mv /tmp/dataplatform-datasets.json /data/dataset/10_raw
               env:
                 - name: DATASET_API_BASE_URL
                   value: https://api.data-dev.oslo.systems

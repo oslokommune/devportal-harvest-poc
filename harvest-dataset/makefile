@@ -19,11 +19,11 @@ help: ## Print this menu
 init: .venv .env ## Init environment
 
 /data:
-	mkdir -p ../data/dataset
+	mkdir -p ../data/dataset/10_raw
 
-run: ## Run harvester
-	export `cat .env` && ${PYTHON} dataplatform-harvester/dataplatform-harvester.py > ../data/dataset/dataplatform-datasets.json
-	cat ../data/dataset/dataplatform-datasets.json
+run: /data ## Run harvester
+	export `cat .env` && ${PYTHON} dataplatform-harvester/dataplatform-harvester.py > ../data/dataset/10_raw/dataplatform-datasets.json
+	cat ../data/dataset/10_raw/dataplatform-datasets.json
 
 build:
 	docker build \
@@ -36,7 +36,7 @@ run-docker: ## Run harvester in a docker container
 		--env-file ./.env \
 		${REPOSITORY}/${NAME}
 
-push:
+push: build
 	docker push ${REPOSITORY}/${NAME}
 
 deploy: build push ## Deploy harvester to Kubernetes
