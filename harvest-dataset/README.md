@@ -27,5 +27,5 @@ This can also be used when updating after code changes.
 
 ### Configuration
 
-Set `DATASETS_BASE_URL` to the base URL of the API that provides datasets. It's set in the files `.env` and
+Set `DATASET_API_BASE_URL` to the base URL of the API that provides datasets. It's set in the files `.env` and
 `harvest_job.yaml`.
