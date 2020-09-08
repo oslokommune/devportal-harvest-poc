@@ -1,0 +1,38 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+
+metadata:
+  name: dataplatform-dataset-harvester
+
+spec:
+  schedule: "10 * * * *"
+  failedJobsHistoryLimit: 2
+  successfulJobsHistoryLimit: 2
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          imagePullSecrets:
+            - name: regsecret
+          containers:
+            - name: dataplatform-dataset-harvester
+              image: container-registry.oslo.kommune.no/dataplatform-dataset-harvester:latest
+              volumeMounts:
+                - name: harvest-output
+                  mountPath: /data
+                - name: temp
+                  mountPath: /tmp
+              args:
+                - /bin/sh
+                - -c
+                - python /app/harvester.py > /tmp/dataplatform-datasets.json && mkdir -p /data/dataset/10_raw && mv /tmp/dataplatform-datasets.json /data/dataset/10_raw
+              env:
+                - name: DATASET_API_BASE_URL
+                  value: https://api.data-dev.oslo.systems
+          volumes:
+            - name: harvest-output
+              persistentVolumeClaim:
+                claimName: harvest-output
+            - name: temp
+              emptyDir: {}
