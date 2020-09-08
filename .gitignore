@@ -9,4 +9,4 @@ distributors.yaml
 /data/
 /**/__pycache__/
 
-/.idea/
+/**/.idea/
