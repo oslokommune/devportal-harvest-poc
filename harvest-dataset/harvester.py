@@ -29,14 +29,14 @@ def convertToOurDomainModel(datasets):
 
     return result
 
-def toJson(datasets):
+def toJSON(datasets):
     return json.dumps([dataset.serialize() for dataset in datasets])
 
 try:
    input_datasets = getDatasets()
    output_datasets = convertToOurDomainModel(input_datasets)
 
-   print(toJson(output_datasets))
+   print(toJSON(output_datasets))
 except Exception as ex:
    print("An error occurred when harvesting.")
    raise ex
