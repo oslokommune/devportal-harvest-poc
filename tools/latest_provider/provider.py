@@ -104,9 +104,6 @@ def datasetsToTurtleResponse(datasets):
 # Output shouldn't contain visibility for now.
 def remove_visibility(datasets):
     for d in datasets:
-        app.logger.error("-----------------------")
-        app.logger.error(d)
-        app.logger.error("-----------------------")
         d.pop("visibility", None)
 
 
