@@ -18,11 +18,13 @@ dictConfig({
     }
 })
 
+
 def preflight():
     response = make_response()
     response.headers.add('Access-Control-Allow-Origin', '*')
 
     return response
+
 
 def toJSONResponse(data):
     response = make_response(json.dumps(data))
@@ -30,18 +32,20 @@ def toJSONResponse(data):
 
     return response
 
+
 def apisToTurtleResponse(apis):
     cmd = ['python', 'scripts/turtle.py']
     process = subprocess.run(
         cmd,
-        capture_output = True,
-        input = json.dumps(apis).encode('utf-8')
+        capture_output=True,
+        input=json.dumps(apis).encode('utf-8')
     )
 
     response = make_response(process.stdout.decode())
     response.mimetype = 'text/turtle'
 
     return response
+
 
 @app.route('/apis', methods=['GET', 'OPTIONS'])
 def get_apis():
@@ -76,12 +80,13 @@ def get_apis():
 
     return response
 
+
 def datasetsToTurtleResponse(datasets):
     cmd = ['python', 'scripts/dataset_turtler.py']
     process = subprocess.run(
         cmd,
-        capture_output = True,
-        input = json.dumps(datasets).encode('utf-8')
+        capture_output=True,
+        input=json.dumps(datasets).encode('utf-8')
     )
 
     if process.returncode != 0:
@@ -95,6 +100,16 @@ def datasetsToTurtleResponse(datasets):
 
     return response
 
+
+# Output shouldn't contain visibility for now.
+def remove_visibility(datasets):
+    for d in datasets:
+        app.logger.error("-----------------------")
+        app.logger.error(d)
+        app.logger.error("-----------------------")
+        d.pop("visibility", None)
+
+
 @app.route('/datasets', methods=['GET', 'OPTIONS'])
 def get_datasets():
     if request.method == 'OPTIONS':
@@ -102,6 +117,8 @@ def get_datasets():
 
     with open(os.path.join(DATASET_DIR, '30_result', 'public.json'), 'r') as f:
         datasets = json.loads(f.read())
+
+    remove_visibility(datasets)
 
     mimetypes = request.headers['Accept'].split(',')
 
