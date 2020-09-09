@@ -46,9 +46,14 @@ def apisToTurtleResponse(apis):
 
     return response
 
+def logRequest(request):
+    app.logger.info(f"Request received: {request.method} {request.path}. Accept-header: {request.headers['Accept']}")
 
 @app.route('/apis', methods=['GET', 'OPTIONS'])
 def get_apis():
+    logRequest(request)
+    app.logger.info(f"Request received: {request.method} /apis")
+
     if request.method == 'OPTIONS':
         return preflight()
 
@@ -109,6 +114,8 @@ def remove_visibility(datasets):
 
 @app.route('/datasets', methods=['GET', 'OPTIONS'])
 def get_datasets():
+    logRequest(request)
+
     if request.method == 'OPTIONS':
         return preflight()
 
