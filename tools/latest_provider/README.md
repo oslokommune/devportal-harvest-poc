@@ -1,6 +1,19 @@
 # Latest Provider
 
 ## What
-A service which exposes an GET /apis entrypoint. Upon a request to /apis, the
-service runs json_merger.py on the configured folder and returns the output as
-json
+
+A service which exposes the following endpoints:
+* GET /apis: Returns APIs from a central storage as JSON or Turtle, depending on accept headers.
+* GET /datasets: Returns datasets from a central storage as JSON or Turtle, depending on accept headers.
+
+## Testing locally
+
+```bash
+make build-image run-docker VERSION=test
+
+curl -H "accept: application/json" http://localhost:5000/apis
+curl -H "accept: text/turtle" http://localhost:5000/apis
+
+curl -H "accept: application/json" http://localhost:5000/datasets
+curl -H "accept: text/turtle" http://localhost:5000/datasets
+```
