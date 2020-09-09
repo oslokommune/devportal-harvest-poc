@@ -31,11 +31,7 @@ def divideByVisibility(data):
     result = { level: list() for level in Visibility }
 
     for item in data:
-        # Output shouldn't contain visibility. It's internal information for our domain.
-        visibility = item.visibility
-        item.visibility = None
-
-        result[Visibility(visibility)].append(item.serialize())
+        result[Visibility(item.visibility)].append(item.serialize())
 
     return result
 
