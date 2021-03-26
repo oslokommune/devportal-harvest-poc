@@ -13,6 +13,6 @@ setup(
     license='https://mit-license.org/',
     packages=find_namespace_packages(include='origo.*'),
     install_requires=[
-        'pyyaml==5.3.1'
+        'pyyaml==5.4'
     ]
 )
