@@ -12,6 +12,6 @@ pyrsistent==0.16.0
 python-jose==3.2.0
 python-keycloak==0.21.0
 requests==2.24.0
-rsa==4.6
+rsa==4.7
 six==1.15.0
 urllib3==1.25.10
